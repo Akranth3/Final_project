@@ -3,22 +3,17 @@ import io
 import PIL
 import PIL.Image as Image
 import PIL.ImageOps  
-sys.path.append("../")
+sys.path.append("..")
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
 import tensorflow as tf
 import numpy as np
-import keras.backend as K
-# from sklearn.model_selection import train_test_split
-# import os
-# from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Conv2DTranspose
-# from tensorflow.keras.models import Model
 import uvicorn
 from utils.model_definition import build_densenet_based_model
-
 import time
+import prometheus_client
 from prometheus_client import Counter, Gauge
 from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi.responses import StreamingResponse
@@ -43,7 +38,7 @@ api_time_per_char_gauge = Gauge("api_time_per_char", "API processing time per ch
 
 def load_model():
     model = build_densenet_based_model()
-    model.load_weights("../weights/densenet_weights.h5")
+    model.load_weights("weights/densenet_weights.h5")
     return model
 
 def preprocess_image(image):
@@ -61,6 +56,9 @@ def predict_label(image, model):
     
     return prediction
     
+@app.get("/metrics/")
+def get_metrics():
+    return Response(prometheus_client.generate_latest(), media_type="text/plain")
 
 @app.post("/predict/")
 async def predict(request:Request, file: UploadFile = File(...)):

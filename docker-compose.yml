@@ -1,14 +1,25 @@
-version: "1"
+version: "3.8"
 
 services:
   detect-api:
     container_name: detect-api
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile
     restart: 'on-failure'
     ports:
-      - "5000:5000"
+      - "8080:8080"
+
+  prometheus:
+    image: prom/prometheus
+    restart: 'always'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+
 
       
 

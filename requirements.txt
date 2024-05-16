@@ -1,1 +1,8 @@
-tensorflow
+fastapi
+Pillow
+numpy
+tensorflow-cpu
+Keras
+uvicorn
+prometheus-client
+prometheus-fastapi-instrumentator
