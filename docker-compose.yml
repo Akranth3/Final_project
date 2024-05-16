@@ -1,5 +1,14 @@
-version: "1.1"
+version: "1"
 
 services:
-  web:
-  
+  detect-api:
+    container_name: detect-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: 'on-failure'
+    ports:
+      - "5000:5000"
+
+      
+

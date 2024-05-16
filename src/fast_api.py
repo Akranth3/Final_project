@@ -1,5 +1,8 @@
+import sys
+sys.path.append("../")
+
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import CORSResponse
+from fastapi.middleware.cors import CORSMiddleware
 import tensorflow as tf
 import keras.backend as K
 from sklearn.model_selection import train_test_split
@@ -8,16 +11,14 @@ from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Conv2DTranspose
 from tensorflow.keras.models import Model
 import uvicorn
 from utils.model_definition import build_densenet_based_model
-import sys
 import time
 from prometheus_client import Counter, Gauge
 from prometheus_fastapi_instrumentator import Instrumentator
 
-sys.path.append("../")
 
 app = FastAPI()
 app.add_middleware(
-    CORSResponse,
+    CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
