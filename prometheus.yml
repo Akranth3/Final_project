@@ -2,16 +2,6 @@ global:
   scrape_interval: 5s
 scrape_configs:
   - job_name: 'fastapi-app'
+    metrics_path: '/metrics'
     static_configs:
       - targets: ['detect-api:8080']
-
-remote_write:
-  - url: https://prometheus-prod-43-prod-ap-south-1.grafana.net/api/prom/push
-    basic_auth:
-      username: 1563035
-      password: glc_eyJvIjoiMTExNzA0MyIsIm4iOiJzdGFjay05MjM4NTQtaW50ZWdyYXRpb24tYXNzaWdubWVudF83X2JkbCIsImsiOiJBODBLbDg5aTRZVWM0b3hmU2k5NTlwczIiLCJtIjp7InIiOiJwcm9kLWFwLXNvdXRoLTEifX0=
-scrape_configs:
-  - job_name: node
-    static_configs:
-      - targets: ["localhost:9090"]
-

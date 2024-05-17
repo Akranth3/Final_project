@@ -6,3 +6,4 @@ Keras
 uvicorn
 prometheus-client
 prometheus-fastapi-instrumentator
+psutil
